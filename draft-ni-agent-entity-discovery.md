@@ -42,7 +42,8 @@ informative:
 
 --- abstract
 
-TODO Abstract
+This document defines a new DNS resource record type, Agent Entity Discovery (AED), to publish agent-specific credential associations, which enables the cross-domain users or agents authenticate, and establish secure, end-to-end connections directly with a private-domain agent entity.
+
 
 
 --- middle
