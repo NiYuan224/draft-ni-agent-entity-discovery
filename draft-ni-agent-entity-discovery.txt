@@ -192,7 +192,7 @@ Table of Contents
    identifier (agent_id) as the left-most label to the domain name, as
    shown below:
 
-   <agent_id>.<domain_domain>
+   <agent_id>.<domain_name>
 
    _Figure 2: Domain Names for AED_
 
