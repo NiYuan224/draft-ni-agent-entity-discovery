@@ -113,9 +113,9 @@ Table of Contents
    functions, inheriting the definition of certificate associations of
    [RFC6698]: it functions either as a credential trust anchor used to
    cryptographically verify the signature of an agent's presented
-   credentials (either via certification path validation or JWT
-   signature verification), or as a credential constraint used to
-   perform a direct match against the agent's credential.
+   credential (either via certification path validation or JWT signature
+   verification), or as a credential constraint used to perform a direct
+   match against the agent's credential.
 
 2.  Conventions and Terminology
 
