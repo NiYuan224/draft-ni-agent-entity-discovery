@@ -113,7 +113,7 @@ A private-domain administrator (e.g. a private-domain identity server) publishes
 
 3. Connection: The client initiates a direct TLS connection to the agent. During the handshake, the client validates the credential presented by the agent against the credential associations.
 
-4. Application credential validation (Optional): If additional application-layer authentication is required inside the secure tunnel, the agent presents an application-layer token. The client utilizes the credential associations from the AED RR to verify the token signature.
+4. Application credential validation (Optional): If additional application-layer authentication is required inside the secure tunnel, the agent presents an application-layer token, then the client utilizes the credential associations from the AED RR to verify the token signature.
 
 # Domain Names for AED Credential Associations {#QNAME}
 
