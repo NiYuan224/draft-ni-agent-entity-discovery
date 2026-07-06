@@ -172,7 +172,7 @@ A one-octet value, called "usage", specifies how the association data is to be u
 
 4 -- RPK Constraint: Usage 4 is used to specify a raw public key (RPK) that MUST directly match the RPK presented by the agent during a TLS handshake {{RFC7250}} and be used to verify the agent's possession of the private key via the CertificateVerify signature.
 
-5-- PSK Constraint: Usage 5 is used to specify a pre-shared key (PSK) identity. The PSK MUST be pre-established out-of-band and stored securely by both the client and the agent so that the client can use the PSK identity to select the correct key during a TLS-PSK handshake {{RFC8446}}. The record MUST contain only the identity string, never the secret key material.
+5 -- PSK Constraint: Usage 5 is used to specify a pre-shared key (PSK) identity. The PSK MUST be pre-established out-of-band and stored securely by both the client and the agent so that the client can use the PSK identity to select the correct key during a TLS-PSK handshake {{RFC8446}}. The record MUST contain only the identity string, never the secret key material.
 
 
 
