@@ -189,10 +189,10 @@ Table of Contents
 4.  Domain Names for AED RR
 
    The QNAME for an AED RR is constructed by prepending the agent
-   identifier (agent_id) as the left-most label to the domain name, as
-   shown below:
+   identifier (agent_id) as the left-most label to the base domain name,
+   as shown below:
 
-   <agent_id>.<domain_name>
+   <agent_id>.<base_domain_name>
 
    _Figure 2: Domain Names for AED_
 
