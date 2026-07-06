@@ -80,7 +80,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 This section outlines the workflow for establishing a secure, end-to-end connection directly with a private-domain agent entity (see Figure 1).
 
-A private-domain administrator (e.g. the private-domain identity server) publishes agent-specific AED RRs to the DNS server. Then, a client can query and parse these records, and use the retrieved credential associations to verify the target agent during the connection.
+A private-domain administrator (e.g. a private-domain identity server) publishes agent-specific AED RRs to the DNS server. Then, a client can query and parse these records, and use the retrieved credential associations to verify the target agent during the connection.
 
 ~~~
 +--------+      +----------+    +--------+      +--------+
