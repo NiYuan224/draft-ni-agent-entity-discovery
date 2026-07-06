@@ -68,8 +68,8 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Terminology
    3.  Workflow
-   4.  Domain Names for AED Credential Associations
-   5.  The Resource Record of Agent Entity Discovery
+   4.  Domain Names for AED RR
+   5.  The AED RR
      5.1.  AED RDATA Wire Format
        5.1.1.  The Usage Field
        5.1.2.  The Selector Field
@@ -184,7 +184,7 @@ Table of Contents
        client utilizes the credential associations from the AED RR to
        verify the token signature.
 
-4.  Domain Names for AED Credential Associations
+4.  Domain Names for AED RR
 
    The QNAME for an AED RR is constructed by prepending the agent
    identifier (agent_id) as the left-most label to the base domain name,
@@ -210,7 +210,7 @@ Table of Contents
 
    *  an encoded application-layer path component, etc.
 
-5.  The Resource Record of Agent Entity Discovery
+5.  The AED RR
 
    This section defines a new DNS resource record (RR) type: AED (Agent
    Entity Discovery).  The AED DNS RR is used to associate a set of
