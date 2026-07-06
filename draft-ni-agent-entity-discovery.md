@@ -35,6 +35,18 @@ author:
   email: liuchunchi@huawei.com
 
 normative:
+  RFC6698:
+  RFC2119:
+  RFC8174:
+  RFC1034:
+  RFC1035:
+  RFC4033:
+  RFC5280:
+  RFC7250:
+  RFC8446:
+  RFC7517:
+  RFC7519:
+  RFC4279:
 
 informative:
 
