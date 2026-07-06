@@ -120,7 +120,7 @@ A private-domain administrator (e.g. a private-domain identity server) publishes
 The QNAME for an AED RR is constructed by prepending the agent identifier (agent_id) as the left-most label to the domain name, as shown below:
 
 ~~~
-<agent_id>.<domain_domain>
+<agent_id>.<domain_name>
 ~~~
 *Figure 2: Domain Names for AED*
 
