@@ -228,11 +228,9 @@ This variable-length field contains the credential association data to be matche
 
 # Security Considerations
 
-
 ## DNSSEC Dependency
 
-All AED RRs MUST be authenticated via DNSSEC {{RFC4033}}. Clients MUST reject AED RRs that do not have a valid DNSSEC validation chain. 
-
+All AED RRs MUST be authenticated via DNSSEC {{RFC4033}}. Clients MUST reject AED RRs that do not have a valid DNSSEC validation chain.
 
 # IANA Considerations
 
