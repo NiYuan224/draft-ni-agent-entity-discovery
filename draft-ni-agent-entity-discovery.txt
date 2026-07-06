@@ -2,7 +2,7 @@
 
 
 
-WG Working Group                                                   Y. Ni
+Network Working Group                                              Y. Ni
 Internet-Draft                                                 C. P. Liu
 Intended status: Informational                                    Huawei
 Expires: 7 January 2027                                      6 July 2026
@@ -13,23 +13,24 @@ DNS-based Entity-Level Discovery and End-to-End Connection for AI Agents
 
 Abstract
 
-   TODO Abstract
+   This document defines a new DNS resource record type, Agent Entity
+   Discovery (AED), to publish agent-specific credential associations,
+   which enables the cross-domain users or agents authenticate, and
+   establish secure, end-to-end connections directly with a private-
+   domain agent entity.
 
 About This Document
 
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
-   be found at https://datatracker.ietf.org/doc/draft-ni-agent-entity-
-   discovery/.
-
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:WG@example.com), which is archived at
-   https://example.com/WG.
+   https://NiYuan224.github.io/draft-ni-agent-entity-discovery/draft-ni-
+   agent-entity-discovery.html.  Status information for this document
+   may be found at https://datatracker.ietf.org/doc/draft-ni-agent-
+   entity-discovery/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/USER/REPO.
+   https://github.com/NiYuan224/draft-ni-agent-entity-discovery.
 
 Status of This Memo
 
