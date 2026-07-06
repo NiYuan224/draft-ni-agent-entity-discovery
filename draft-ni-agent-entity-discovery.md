@@ -115,7 +115,7 @@ A private-domain administrator (e.g. a private-domain identity server) publishes
 
 4. Application credential validation (Optional): If additional application-layer authentication is required inside the secure tunnel, the agent presents an application-layer token, then the client utilizes the credential associations from the AED RR to verify the token signature.
 
-# Domain Names for AED Credential Associations {#QNAME}
+# Domain Names for AED RR {#QNAME}
 
 The QNAME for an AED RR is constructed by prepending the agent identifier (agent_id) as the left-most label to the base domain name, as shown below:
 
@@ -136,7 +136,7 @@ To maintain flexibility, the internal structure and generation mechanism of the 
 
 
 
-# The Resource Record of Agent Entity Discovery {#RR}
+# The AED RR {#RR}
 
 This section defines a new DNS resource record (RR) type: AED (Agent Entity Discovery). The AED DNS RR is used to associate a set of trust anchors or credential constraints with a specific AI agent entity, thus enabling a client to authenticate that AI agent.
 
