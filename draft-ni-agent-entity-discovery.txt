@@ -75,7 +75,39 @@ Table of Contents
 
 1.  Introduction
 
-   TODO Introduction
+   AI agents are evolving from isolated, single-domain components into
+   collaborative entities interacting across domain boundaries.  This
+   shift requires agent-specific credential associations, such as
+   private-domain trust anchors, to be securely exchanged or published
+   for cross-domain authentication.  For instance, SPIFFE Federation
+   allows disparate domains to securely exchange their trust bundles via
+   the SPIFFE Federation API, enabling agents to cryptographically
+   verify other agents' credentials.  However, such a federation relies
+   on out-of-band pre-configuration between participating organizations,
+   and is therefore not suitable for dynamic, internet-scale discovery
+   and authentication.
+
+   Conversely, existing internet-scale mechanisms such as DNSSEC
+   [RFC4033] and DANE [RFC6698] only secure identities at the domain
+   level.  Consequently, a client cannot differentiate among multiple
+   agents that are served from the same domain name, leading to risks of
+   impersonation and lateral movement.
+
+   To bridge this gap, this document introduces a mechanism that re-
+   anchors trust at the agent entity level rather than at the domain
+   name level.  By extending DNS Resource Records (RRs) to publish
+   agent-specific credential associations, a cross-domain client can
+   retrieve these records during the discovery phase and establish an
+   end-to-end connection directly to the target AI agent, rather than
+   the domain name that hosts it.
+
+   The credential association defined in this mechanism provides two
+   functions, inheriting the definition of certificate associations of
+   [RFC6698]: it functions either as a credential trust anchor used to
+   cryptographically verify the signature of an agent's presented
+   credentials (either via certification path validation or JWT
+   signature verification), or as a credential constraint used to
+   perform a direct match against the agent's credential.
 
 2.  Conventions and Definitions
 
@@ -95,14 +127,61 @@ Table of Contents
 
 5.  Normative References
 
+   [RFC1034]  Mockapetris, P., "Domain names - concepts and facilities",
+              STD 13, RFC 1034, DOI 10.17487/RFC1034, November 1987,
+              <https://www.rfc-editor.org/rfc/rfc1034>.
+
+   [RFC1035]  Mockapetris, P., "Domain names - implementation and
+              specification", STD 13, RFC 1035, DOI 10.17487/RFC1035,
+              November 1987, <https://www.rfc-editor.org/rfc/rfc1035>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "DNS Security Introduction and Requirements",
+              RFC 4033, DOI 10.17487/RFC4033, March 2005,
+              <https://www.rfc-editor.org/rfc/rfc4033>.
+
+   [RFC4279]  Eronen, P., Ed. and H. Tschofenig, Ed., "Pre-Shared Key
+              Ciphersuites for Transport Layer Security (TLS)",
+              RFC 4279, DOI 10.17487/RFC4279, December 2005,
+              <https://www.rfc-editor.org/rfc/rfc4279>.
+
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/rfc/rfc5280>.
+
+   [RFC6698]  Hoffman, P. and J. Schlyter, "The DNS-Based Authentication
+              of Named Entities (DANE) Transport Layer Security (TLS)
+              Protocol: TLSA", RFC 6698, DOI 10.17487/RFC6698, August
+              2012, <https://www.rfc-editor.org/rfc/rfc6698>.
+
+   [RFC7250]  Wouters, P., Ed., Tschofenig, H., Ed., Gilmore, J.,
+              Weiler, S., and T. Kivinen, "Using Raw Public Keys in
+              Transport Layer Security (TLS) and Datagram Transport
+              Layer Security (DTLS)", RFC 7250, DOI 10.17487/RFC7250,
+              June 2014, <https://www.rfc-editor.org/rfc/rfc7250>.
+
+   [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
+              DOI 10.17487/RFC7517, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7517>.
+
+   [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
+              (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7519>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8446>.
 
 Acknowledgments
 
