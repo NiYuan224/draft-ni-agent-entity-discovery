@@ -76,6 +76,7 @@ Table of Contents
        5.1.3.  The Matching Type Field
        5.1.4.  The Credential Association Data Field
    6.  Security Considerations
+     6.1.  DNSSEC Dependency
    7.  IANA Considerations
    8.  Normative References
    Acknowledgments
@@ -342,7 +343,10 @@ Table of Contents
 
 6.  Security Considerations
 
-   TODO Security
+6.1.  DNSSEC Dependency
+
+   All AED RRs MUST be authenticated via DNSSEC [RFC4033].  Clients MUST
+   reject AED RRs that do not have a valid DNSSEC validation chain.
 
 7.  IANA Considerations
 

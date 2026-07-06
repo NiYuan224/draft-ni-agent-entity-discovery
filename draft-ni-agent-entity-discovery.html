@@ -1183,6 +1183,11 @@ svg {
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-dnssec-dependency" class="internal xref">DNSSEC Dependency</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
@@ -1409,7 +1414,14 @@ svg {
       <h2 id="name-security-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-6-1">TODO Security<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="dnssec-dependency">
+<section id="section-6.1">
+        <h3 id="name-dnssec-dependency">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-dnssec-dependency" class="section-name selfRef">DNSSEC Dependency</a>
+        </h3>
+<p id="section-6.1-1">All AED RRs MUST be authenticated via DNSSEC <span>[<a href="#RFC4033" class="cite xref">RFC4033</a>]</span>. Clients MUST reject AED RRs that do not have a valid DNSSEC validation chain.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="iana-considerations">
