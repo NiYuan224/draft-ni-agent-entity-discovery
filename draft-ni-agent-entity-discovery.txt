@@ -89,11 +89,11 @@ Table of Contents
    private-domain trust anchors, to be securely exchanged or published
    for cross-domain authentication.  For instance, SPIFFE Federation
    allows disparate domains to securely exchange their trust bundles via
-   the SPIFFE Federation API, enabling agents to cryptographically
-   verify other agents' credentials.  However, such a federation relies
-   on out-of-band pre-configuration between participating organizations,
-   and is therefore not suitable for dynamic, internet-scale discovery
-   and authentication.
+   the bundle endpoint, enabling agents to cryptographically verify
+   other agents' credentials.  However, such a federation relies on out-
+   of-band pre-configuration between participating organizations, and is
+   therefore not suitable for dynamic, internet-scale discovery and
+   authentication.
 
    Conversely, existing internet-scale mechanisms such as DNSSEC
    [RFC4033] and DANE [RFC6698] only secure identities at the domain
