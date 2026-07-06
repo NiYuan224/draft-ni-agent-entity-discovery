@@ -186,7 +186,7 @@ A one-octet value, called "selector", specifies which part of the trust anchor o
 
   * For JWT trust anchors (usage 1): The UTF-8 encoded JSON string of the JWK {{RFC7517}}.
 
-  * For JWT constraints (usage 3): The UTF-8 encoded string of the full JWT compact serialization {{RFC7519}}.
+  * For JWT constraints (usage 3): The  ASCII string representing the full JWT compact serialization {{RFC7519}}.
 
   * For PSK constraints (usage 5): The opaque string representing the PSK identity {{RFC8446}}.
 
