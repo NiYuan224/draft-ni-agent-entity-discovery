@@ -180,7 +180,7 @@ Table of Contents
 
    4.  Application credential validation (Optional): If additional
        application-layer authentication is required inside the secure
-       tunnel, the agent presents an application-layer token.  The
+       tunnel, the agent presents an application-layer token, then the
        client utilizes the credential associations from the AED RR to
        verify the token signature.
 
