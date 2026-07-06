@@ -73,7 +73,7 @@ The credential association defined in this mechanism provides two functions, inh
 
 # Conventions and Terminology {#term}
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC 2119}} {{RFC 8174}} when, and only when, they appear in all capitals, as shown here.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
 
 # Workflow
@@ -115,6 +115,30 @@ A private-domain administrator (e.g. the private-domain identity server) publish
 
 4. Application credential validation (Optional): If additional application-layer authentication is required inside the secure tunnel, the agent presents an application-layer token. The client utilizes the credential associations from the AED RR to verify the token signature.
 
+# Domain Names for AED Credential Associations {#QNAME}
+
+The QNAME for an AED RR is constructed by prepending the agent identifier (agent_id) as the left-most label to the base domain name, as shown below:
+
+~~~
+<agent_id>.<base_domain>
+~~~
+*Figure 2: Domain Names for AED*
+
+For example, to request an AED resource record for an AI agent identified as "agent-007" hosted at "www.example.com", the QNAME "agent-007.www.example.com" is used.
+
+To maintain flexibility, the internal structure and generation mechanism of the "agent_id" label are left open to deployment-specific choices or future specifications. However, any abstract identifier used MUST be mapped to a valid DNS label. Examples of such identifiers MAY include:
+
+* a WIMSE workload identifier;
+
+* a W3C DID;
+
+* an encoded application-layer path component, etc.
+
+
+
+# The Resource Record of Agent Entity Discovery {#RR}
+
+This section defines a new DNS resource record (RR) type: AED (Agent Entity Discovery). The AED DNS RR is used to associate a set of trust anchors or credential constraints with a specific AI agent entity, thus enabling a client to authenticate that AI agent.
 
 # Security Considerations
 
