@@ -1,4 +1,4 @@
-###
+---
 title: DNS-based Entity-Level Discovery and End-to-End Connection for AI Agents
 abbrev: draft-ni-agent-entity-discovery
 category: info
