@@ -68,7 +68,7 @@ Conversely, existing internet-scale mechanisms such as DNSSEC {{RFC4033}} and DA
 
 To bridge this gap, this document introduces a mechanism that re-anchors trust at the agent entity level rather than at the domain name level. By extending DNS Resource Records (RRs) to publish agent-specific credential associations, a cross-domain client can retrieve these records during the discovery phase and establish an end-to-end connection directly to the target AI agent, rather than the domain name that hosts it.
 
-The credential association defined in this mechanism provides two functions, inheriting the definition of certificate associations of {{RFC6698}}: it functions either as a credential trust anchor used to cryptographically verify the signature of an agent's presented credentials (either via certification path validation or JWT signature verification), or as a credential constraint used to perform a direct match against the agent's credential.
+The credential association defined in this mechanism provides two functions, inheriting the definition of certificate associations of {{RFC6698}}: it functions either as a credential trust anchor used to cryptographically verify the signature of an agent's presented credential (either via certification path validation or JWT signature verification), or as a credential constraint used to perform a direct match against the agent's credential.
 
 
 # Conventions and Terminology {#term}
