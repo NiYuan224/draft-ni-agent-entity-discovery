@@ -70,6 +70,11 @@ Table of Contents
    3.  Workflow
    4.  Domain Names for AED Credential Associations
    5.  The Resource Record of Agent Entity Discovery
+     5.1.  AED RDATA Wire Format
+       5.1.1.  The Usage Field
+       5.1.2.  The Selector Field
+       5.1.3.  The Matching Type Field
+       5.1.4.  The Credential Association Data Field
    6.  Security Considerations
    7.  IANA Considerations
    8.  Normative References
@@ -211,6 +216,128 @@ Table of Contents
    Entity Discovery).  The AED DNS RR is used to associate a set of
    trust anchors or credential constraints with a specific AI agent
    entity, thus enabling a client to authenticate that AI agent.
+
+5.1.  AED RDATA Wire Format
+
+   The RDATA for an AED RR consists of a one-octet Usage field, a one-
+   octet Selector field, a one-octet Matching Type field, and a
+   variable-length Credential Association Data field.
+
+                           1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
+       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    Usage      |   Selector    |  Matching Type|               /
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+               /
+      /                                                               /
+      /         Credential Association Data (variable)                /
+      /                                                               /
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+   _Figure 3: AED RDATA Wire Format_
+
+5.1.1.  The Usage Field
+
+   A one-octet value, called "usage", specifies how the association data
+   is to be used during agent authentication.  The usages defined in
+   this document are:
+
+   0 -- Certificate Trust Anchor: Usage 0 is used to specify a
+   certificate or public key that MUST serve as a domain-specific trust
+   anchor for TLS certification path validation of the presented agent
+   certificate during the TLS handshake.
+
+   1 -- JWT Trust Anchor: Usage 1 is used to specify a JSON Web Key
+   (JWK) that MUST serve as a domain-specific trust anchor to verify the
+   signature of an application-layer JSON Web Token (JWT) presented by
+   the agent inside the tunnel.
+
+   2 -- Certificate Constraint: Usage 2 is used to specify a certificate
+   or the public key that MUST directly match the certificate presented
+   by the agent during the TLS handshake.
+
+   3-- JWT Constraint: Usage 3 is used to specify a JWT that MUST
+   directly match the JWT presented by the agent inside the tunnal.
+
+   4 -- RPK Constraint: Usage 4 is used to specify a raw public key
+   (RPK) that MUST directly match the RPK presented by the agent during
+   a TLS handshake[RFC7250] and be used to verify the agent's possession
+   of the private key via the CertificateVerify signature.
+
+   5-- PSK Constraint: Usage 5 is used to specify a pre-shared key (PSK)
+   identity string.  The PSK MUST be pre-established out-of-band and
+   stored securely by both the client and the agent so that the client
+   can use the PSK identity to select the correct key during a TLS-PSK
+   handshake [RFC8446].  The record MUST contain only the identity
+   string, never the secret key material.
+
+5.1.2.  The Selector Field
+
+   A one-octet value, called "selector", specifies which part of the
+   trust anchor or credential is contained in the credential association
+   data.  The selectors defined in this document are:
+
+   0 -- Full credential: The full binary or textual structure of the
+   credential or trust anchor.
+
+   *  For X.509 certificates (usages 0 and 2): The DER-encoded binary
+      structure of the full X.509 Certificate [RFC5280].
+
+   *  For JWT trust anchors (usage 1): The UTF-8 encoded JSON string of
+      the JWK [RFC7517].
+
+   *  For JWT constraints (usage 3): The full JWT compact serialization
+      [RFC7519].
+
+   *  For PSK constraints (usage 5): The UTF-8 encoded PSK identity
+      [RFC4279].
+
+   1 -- SubjectPublicKeyInfo: DER-encoded binary structure of the public
+   key as defined in [RFC5280].
+
+   *  For X.509 certificates (usages 0 and 2): The SubjectPublicKeyInfo
+      field within the certificate.
+
+   *  For RPK constraints (usage 4): The RPK structure as defined in
+      [RFC7250].
+
+5.1.3.  The Matching Type Field
+
+   A one-octet value, called "matching type", specifies how the
+   credential association is presented and matched.  The types defined
+   in this document are the same as Section 2.1.3 of [RFC6698]:
+
+   0 -- Exact match on selected content.
+
+   1 -- SHA-256 hash of selected content.
+
+   2 -- SHA-512 hash of selected content.
+
+   The following constraints apply to this document:
+
+   For JWT Trust Anchors (Usage 1): Matching type 1 or 2 is NOT
+   RECOMMENDED unless the companion application protocol explicitly
+   guarantees that the plain-text JWK is delivered alongside the token.
+   Without the plain-text JWK, the client cannot obtain the public key
+   material needed to verify the JWT signature.
+
+   For PSK Constraints (Usage 5): The matching type MUST be set to 0.
+   The client requires the raw, unhashed PSK identity string to
+   construct the TLS ClientHello message.
+
+5.1.4.  The Credential Association Data Field
+
+   This variable-length field contains the credential association data
+   to be matched, constructed according to the preceding fields:
+
+   *  The Usage field exemplifies the use of the credential association
+      data.
+
+   *  The Selector field determines whether the credential association
+      data contains the full structure or the SubjectPublicKeyInfo of
+      the credential.
+
+   *  The Matching Type field determines the data's representation: the
+      raw data, or its cryptographic hash.
 
 6.  Security Considerations
 

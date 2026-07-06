@@ -1161,6 +1161,25 @@ svg {
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-the-resource-record-of-agen" class="internal xref">The Resource Record of Agent Entity Discovery</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-aed-rdata-wire-format" class="internal xref">AED RDATA Wire Format</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.1">
+                    <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="auto internal xref">5.1.1</a>.  <a href="#name-the-usage-field" class="internal xref">The Usage Field</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.2">
+                    <p id="section-toc.1-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="auto internal xref">5.1.2</a>.  <a href="#name-the-selector-field" class="internal xref">The Selector Field</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.3">
+                    <p id="section-toc.1-1.5.2.1.2.3.1"><a href="#section-5.1.3" class="auto internal xref">5.1.3</a>.  <a href="#name-the-matching-type-field" class="internal xref">The Matching Type Field</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.4">
+                    <p id="section-toc.1-1.5.2.1.2.4.1"><a href="#section-5.1.4" class="auto internal xref">5.1.4</a>.  <a href="#name-the-credential-association-" class="internal xref">The Credential Association Data Field</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
@@ -1282,6 +1301,107 @@ svg {
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-the-resource-record-of-agen" class="section-name selfRef">The Resource Record of Agent Entity Discovery</a>
       </h2>
 <p id="section-5-1">This section defines a new DNS resource record (RR) type: AED (Agent Entity Discovery). The AED DNS RR is used to associate a set of trust anchors or credential constraints with a specific AI agent entity, thus enabling a client to authenticate that AI agent.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div id="aed-rdata-wire-format">
+<section id="section-5.1">
+        <h3 id="name-aed-rdata-wire-format">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-aed-rdata-wire-format" class="section-name selfRef">AED RDATA Wire Format</a>
+        </h3>
+<p id="section-5.1-1">The RDATA for an AED RR consists of a one-octet Usage field, a one-octet Selector field, a one-octet Matching Type field, and a variable-length Credential Association Data field.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5.1-2">
+<pre>
+                        1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |    Usage      |   Selector    |  Matching Type|               /
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+               /
+   /                                                               /
+   /         Credential Association Data (variable)                /
+   /                                                               /
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</pre><a href="#section-5.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.1-3"><em>Figure 3: AED RDATA Wire Format</em><a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<div id="the-usage-field">
+<section id="section-5.1.1">
+          <h4 id="name-the-usage-field">
+<a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-the-usage-field" class="section-name selfRef">The Usage Field</a>
+          </h4>
+<p id="section-5.1.1-1">A one-octet value, called "usage", specifies how the association data is to be used during agent authentication. The usages defined in this document are:<a href="#section-5.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-2">0 -- Certificate Trust Anchor: Usage 0 is used to specify a certificate or public key that MUST serve as a domain-specific trust anchor for TLS certification path validation of the presented agent certificate during the TLS handshake.<a href="#section-5.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-3">1 -- JWT Trust Anchor: Usage 1 is used to specify a JSON Web Key (JWK) that MUST serve as a domain-specific trust anchor to verify the signature of an application-layer JSON Web Token (JWT) presented by the agent inside the tunnel.<a href="#section-5.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-4">2 -- Certificate Constraint: Usage 2 is used to specify a certificate or the public key that MUST directly match the certificate presented by the agent during the TLS handshake.<a href="#section-5.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-5">3-- JWT Constraint:  Usage 3 is used to specify a JWT that MUST directly match the JWT presented by the agent inside the tunnal.<a href="#section-5.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-6">4 -- RPK Constraint: Usage 4 is used to specify a raw public key (RPK) that MUST directly match the RPK presented by the agent during a TLS handshake<span>[<a href="#RFC7250" class="cite xref">RFC7250</a>]</span> and be used to verify the agent's possession of the private key via the CertificateVerify signature.<a href="#section-5.1.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-7">5-- PSK Constraint: Usage 5 is used to specify a pre-shared key (PSK) identity string. The PSK MUST be pre-established out-of-band and stored securely by both the client and the agent so that the client can use the PSK identity to select the correct key during a TLS-PSK handshake <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>. The record MUST contain only the identity string, never the secret key material.<a href="#section-5.1.1-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-selector-field">
+<section id="section-5.1.2">
+          <h4 id="name-the-selector-field">
+<a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-the-selector-field" class="section-name selfRef">The Selector Field</a>
+          </h4>
+<p id="section-5.1.2-1">A one-octet value, called "selector", specifies which part of the trust anchor or credential is contained in the credential association data.  The selectors defined in this document are:<a href="#section-5.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.2-2">0 -- Full credential: The full binary or textual structure of the credential or trust anchor.<a href="#section-5.1.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1.2-3.1">
+              <p id="section-5.1.2-3.1.1">For X.509 certificates (usages 0 and 2): The DER-encoded binary structure of the full X.509 Certificate <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-5.1.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-3.2">
+              <p id="section-5.1.2-3.2.1">For JWT trust anchors (usage 1): The UTF-8 encoded JSON string of the JWK <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span>.<a href="#section-5.1.2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-3.3">
+              <p id="section-5.1.2-3.3.1">For JWT constraints (usage 3): The full JWT compact serialization <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-5.1.2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-3.4">
+              <p id="section-5.1.2-3.4.1">For PSK constraints (usage 5): The UTF-8 encoded PSK identity <span>[<a href="#RFC4279" class="cite xref">RFC4279</a>]</span>.<a href="#section-5.1.2-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.1.2-4">1 -- SubjectPublicKeyInfo: DER-encoded binary structure of the public key as defined in <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span>.<a href="#section-5.1.2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1.2-5.1">
+              <p id="section-5.1.2-5.1.1">For X.509 certificates (usages 0 and 2): The SubjectPublicKeyInfo field within the certificate.<a href="#section-5.1.2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.2-5.2">
+              <p id="section-5.1.2-5.2.1">For RPK constraints (usage 4): The RPK structure as defined in <span>[<a href="#RFC7250" class="cite xref">RFC7250</a>]</span>.<a href="#section-5.1.2-5.2.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="the-matching-type-field">
+<section id="section-5.1.3">
+          <h4 id="name-the-matching-type-field">
+<a href="#section-5.1.3" class="section-number selfRef">5.1.3. </a><a href="#name-the-matching-type-field" class="section-name selfRef">The Matching Type Field</a>
+          </h4>
+<p id="section-5.1.3-1">A one-octet value, called "matching type", specifies how the credential association is presented and matched. The types defined in this document are the same as Section 2.1.3 of <span>[<a href="#RFC6698" class="cite xref">RFC6698</a>]</span>:<a href="#section-5.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-2">0 -- Exact match on selected content.<a href="#section-5.1.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-3">1 -- SHA-256 hash of selected content.<a href="#section-5.1.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-4">2 -- SHA-512 hash of selected content.<a href="#section-5.1.3-4" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-5">The following constraints apply to this document:<a href="#section-5.1.3-5" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-6">For JWT Trust Anchors (Usage 1): Matching type 1 or 2 is NOT RECOMMENDED unless the companion application protocol explicitly guarantees that the plain-text JWK is delivered alongside the token. Without the plain-text JWK, the client cannot obtain the public key material needed to verify the JWT signature.<a href="#section-5.1.3-6" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-7">For PSK Constraints (Usage 5): The matching type MUST be set to 0. The client requires the raw, unhashed PSK identity string to construct the TLS ClientHello message.<a href="#section-5.1.3-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-credential-association-data-field">
+<section id="section-5.1.4">
+          <h4 id="name-the-credential-association-">
+<a href="#section-5.1.4" class="section-number selfRef">5.1.4. </a><a href="#name-the-credential-association-" class="section-name selfRef">The Credential Association Data Field</a>
+          </h4>
+<p id="section-5.1.4-1">This variable-length field contains the credential association data to be matched, constructed according to the preceding fields:<a href="#section-5.1.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1.4-2.1">
+              <p id="section-5.1.4-2.1.1">The Usage field exemplifies the use of the credential association data.<a href="#section-5.1.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.4-2.2">
+              <p id="section-5.1.4-2.2.1">The Selector field determines whether the credential association data contains the full structure or the SubjectPublicKeyInfo of the credential.<a href="#section-5.1.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.4-2.3">
+              <p id="section-5.1.4-2.3.1">The Matching Type field determines the data's representation: the raw data, or its cryptographic hash.<a href="#section-5.1.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
 </section>
 </div>
 <div id="security-considerations">
