@@ -80,7 +80,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 This section outlines the workflow for establishing a secure, end-to-end connection directly with a private-domain agent entity (see Figure 1).
 
-A private-domain administrator (e.g. a private-domain identity server) publishes agent-specific AED RRs to the DNS server. Then, a client can query and parse these records, and use the retrieved credential associations to verify the target agent during the connection.
+A private-domain administrator (e.g. a private-domain identity server) publishes agent-specific AED (Agent Entity Discovery) RRs to the DNS server. Then, a client can query and parse these records, and use the retrieved credential associations to verify the target agent during the connection.
 
 ~~~
 +--------+      +----------+    +--------+      +--------+
@@ -109,7 +109,7 @@ A private-domain administrator (e.g. a private-domain identity server) publishes
 
 1. Registration: The private-domain administrator constructs a dedicated QNAME (as defined in {{QNAME}}) for the internal agent and publishes its AED RRs (as defined in {{RR}}) to the DNS server.
 
-2. Discovery: A client sends a DNS query for the agent's specific QNAME with the AED type, and extracts the agent's credential associations from the recevied AED RR. The client also obtains the agent's network location (IP address and port) via A/AAAA or SRV records. Subsequent TLS handshake messages SHOULD be sent to this obtained address.
+2. Discovery: A client sends a DNS query for the agent's specific QNAME with the AED QTYPE, and extracts the agent's credential associations from the recevied AED RRs. The client also obtains the agent's network location (IP address and port) via A/AAAA or SRV RRs. Subsequent TLS handshake messages SHOULD be sent to this obtained address.
 
 3. Connection: The client initiates a direct TLS connection to the agent. During the handshake, the client validates the credential presented by the agent against the credential associations.
 
@@ -124,7 +124,7 @@ The QNAME for an AED RR is constructed by prepending the agent identifier (agent
 ~~~
 *Figure 2: Domain Names for AED*
 
-For example, to request an AED resource record for an AI agent identified as "agent-007" hosted at "www.example.com", the QNAME "agent-007.www.example.com" is used.
+For example, to request AED RRs for an AI agent identified as "agent-007" hosted at "www.example.com", the QNAME "agent-007.www.example.com" is used.
 
 To maintain flexibility, the internal structure and generation mechanism of the "agent_id" label are left open to deployment-specific choices or future specifications. However, any abstract identifier used MUST be mapped to a valid DNS label. Examples of such identifiers MAY include:
 
@@ -138,7 +138,7 @@ To maintain flexibility, the internal structure and generation mechanism of the 
 
 # The AED RR {#RR}
 
-This section defines a new DNS resource record (RR) type: AED (Agent Entity Discovery). The AED DNS RR is used to associate a set of trust anchors or credential constraints with a specific AI agent entity, thus enabling a client to authenticate that AI agent.
+This section defines a new DNS RR type: AED, which is used to associate a set of trust anchors or credential constraints with a specific AI agent entity, thus enabling a client to authenticate that AI agent.
 
 ## AED RDATA Wire Format
 
@@ -160,7 +160,7 @@ The RDATA for an AED RR consists of a one-octet Usage field, a one-octet Selecto
 
 ### The Usage Field
 
-A one-octet value, called "usage", specifies how the association data is to be used during agent authentication. The usages defined in this document are:
+A one-octet value, called "usage", specifies how the association data is to be used for agent authentication. The usages defined in this document are:
 
 0 -- Certificate Trust Anchor: Usage 0 is used to specify a certificate or public key that MUST serve as a domain-specific trust anchor for TLS certification path validation of the presented agent certificate during the TLS handshake.
 
@@ -168,11 +168,11 @@ A one-octet value, called "usage", specifies how the association data is to be u
 
 2 -- Certificate Constraint: Usage 2 is used to specify a certificate or the public key that MUST directly match the certificate presented by the agent during the TLS handshake.
 
-3-- JWT Constraint:  Usage 3 is used to specify a JWT that MUST directly match the JWT presented by the agent inside the tunnal.
+3 -- JWT Constraint:  Usage 3 is used to specify a JWT that MUST directly match the JWT presented by the agent inside the tunnel.
 
-4 -- RPK Constraint: Usage 4 is used to specify a raw public key (RPK) that MUST directly match the RPK presented by the agent during a TLS handshake{{RFC7250}} and be used to verify the agent's possession of the private key via the CertificateVerify signature.
+4 -- RPK Constraint: Usage 4 is used to specify a raw public key (RPK) that MUST directly match the RPK presented by the agent during a TLS handshake {{RFC7250}} and be used to verify the agent's possession of the private key via the CertificateVerify signature.
 
-5-- PSK Constraint: Usage 5 is used to specify a pre-shared key (PSK) identity string. The PSK MUST be pre-established out-of-band and stored securely by both the client and the agent so that the client can use the PSK identity to select the correct key during a TLS-PSK handshake {{RFC8446}}. The record MUST contain only the identity string, never the secret key material.
+5-- PSK Constraint: Usage 5 is used to specify a pre-shared key (PSK) identity. The PSK MUST be pre-established out-of-band and stored securely by both the client and the agent so that the client can use the PSK identity to select the correct key during a TLS-PSK handshake {{RFC8446}}. The record MUST contain only the identity string, never the secret key material.
 
 
 
@@ -186,15 +186,15 @@ A one-octet value, called "selector", specifies which part of the trust anchor o
 
   * For JWT trust anchors (usage 1): The UTF-8 encoded JSON string of the JWK {{RFC7517}}.
 
-  * For JWT constraints (usage 3): The full JWT compact serialization {{RFC7519}}.
+  * For JWT constraints (usage 3): The UTF-8 encoded string of the full JWT compact serialization {{RFC7519}}.
 
-  * For PSK constraints (usage 5): The UTF-8 encoded PSK identity {{RFC4279}}.
+  * For PSK constraints (usage 5): The opaque string representing the PSK identity {{RFC8446}}.
 
-1 -- SubjectPublicKeyInfo: DER-encoded binary structure of the public key as defined in {{RFC5280}}.
+1 -- SubjectPublicKeyInfo: DER-encoded binary structure of the public key.
 
-  * For X.509 certificates (usages 0 and 2): The SubjectPublicKeyInfo field within the certificate.
+  * For X.509 certificates (usages 0 and 2): The SubjectPublicKeyInfo field within the certificate, encoded in DER binary format {{RFC5280}}.
 
-  * For RPK constraints (usage 4): The RPK structure as defined in {{RFC7250}}.
+  * For RPK constraints (usage 4): The DER-encoded RPK structure {{RFC7250}}.
 
 
 ### The Matching Type Field
@@ -212,7 +212,7 @@ The following constraints apply to this document:
 
 For JWT Trust Anchors (Usage 1): Matching type 1 or 2 is NOT RECOMMENDED unless the companion application protocol explicitly guarantees that the plain-text JWK is delivered alongside the token. Without the plain-text JWK, the client cannot obtain the public key material needed to verify the JWT signature.
 
-For PSK Constraints (Usage 5): The matching type MUST be set to 0. The client requires the raw, unhashed PSK identity string to construct the TLS ClientHello message.
+For PSK Constraints (Usage 5): The matching type MUST be set to 0. The client requires the raw, unhashed PSK identity to construct the TLS ClientHello message.
 
 ### The Credential Association Data Field
 
