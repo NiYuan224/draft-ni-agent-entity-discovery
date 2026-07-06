@@ -71,10 +71,49 @@ To bridge this gap, this document introduces a mechanism that re-anchors trust a
 The credential association defined in this mechanism provides two functions, inheriting the definition of certificate associations of {{RFC6698}}: it functions either as a credential trust anchor used to cryptographically verify the signature of an agent's presented credentials (either via certification path validation or JWT signature verification), or as a credential constraint used to perform a direct match against the agent's credential.
 
 
+# Conventions and Terminology {#term}
 
-# Conventions and Definitions
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC 2119}} {{RFC 8174}} when, and only when, they appear in all capitals, as shown here.
 
-{::boilerplate bcp14-tagged}
+
+# Workflow
+
+This section outlines the workflow for establishing a secure, end-to-end connection directly with a private-domain agent entity (see Figure 1).
+
+A private-domain administrator (e.g. the private-domain identity server) publishes agent-specific AED RRs to the DNS server. Then, a client can query and parse these records, and use the retrieved credential associations to verify the target agent during the connection.
+
+~~~
++--------+      +----------+    +--------+      +--------+
+| Client |      |DNS Server|    | Agent  |      | Admin  |
++--------+      +----------+    +--------+      +--------+
+    |               |               |               |
+    |               |1. Register AED                |
+    |               |<------------------------------|
+    |               |               |               |
+    |2.Query AED    |               |               |
+    |-------------->|               |               |
+    |               |               |               |
+    | Answer  AED   |               |               |
+    |<--------------|               |               |
+    |               |               |               |
+    |3.TLS handshake|               |               |
+    |------------------------------->               |
+    |  (Validate X.509/RPK/PSK etc.)|               |
+    |               |               |               |
+    |4.Application credential validation (Optional) |
+    |<------------------------------>               |
+    |               |               |               |
+    |               |               |               |
+~~~
+*Figure 1: Workflow of Agent Entity-Level Discovery and End-to-End Connection*
+
+1. Registration: The private-domain administrator constructs a dedicated QNAME (as defined in {{QNAME}}) for the internal agent and publishes its AED RRs (as defined in {{RR}}) to the DNS server.
+
+2. Discovery: A client sends a DNS query for the agent's specific QNAME with the AED type, and extracts the agent's credential associations from the recevied AED RR. The client also obtains the agent's network location (IP address and port) via A/AAAA or SRV records. Subsequent TLS handshake messages SHOULD be sent to this obtained address.
+
+3. Connection: The client initiates a direct TLS connection to the agent. During the handshake, the client validates the credential presented by the agent against the credential associations.
+
+4. Application credential validation (Optional): If additional application-layer authentication is required inside the secure tunnel, the agent presents an application-layer token. The client utilizes the credential associations from the AED RR to verify the token signature.
 
 
 # Security Considerations
